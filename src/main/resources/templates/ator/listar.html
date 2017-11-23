@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/main">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Listar Atores</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-sm-12">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Sexo</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ator, iter: ${atores}">
+                <th scope="row" th:text="${ator.id}">1</th>
+                <td th:text="${ator.nome}"></td>
+                <td th:text="${ator.sexo}"></td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Ações">
+                        <a th:href="@{/ator/editar(id=${ator.id})}" class="btn btn-info btn-sm">Editar</a>
+                        <a th:href="@{/ator/excluir(id=${ator.id})}" class="btn btn-danger btn-sm">Excluir</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <a th:href="@{/ator/novo}" class="btn btn-primary">Novo</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

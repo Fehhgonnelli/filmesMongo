@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/main">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Listar Filmes</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-sm-12">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>A quanto tempo foi lançado</th>
+                <th>Diretor</th>
+                <th>Media Votos</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="filme : ${filmes}">
+                <th scope="row" th:text="${filme.id}">1</th>
+                <td th:text="${filme.nome}">Clube da Luta</td>
+                <td th:inline="text" th:if="${filme.ano}">[[2017 - ${filme.ano}]] anos ([[${filme.ano}]])</td>
+                <td th:inline="text" th:unless="${filme.ano}"> Não informado </td>
+                <td th:text="${filme.diretor.nome}"></td>
+                <td th:text="${filme.mediaAvaliacoes}"></td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Ações">
+                        <a th:href="@{/filme/editar(id=${filme.id})}" class="btn btn-info btn-sm">Editar</a>
+                        <a th:href="@{/filme/delete(id=${filme.id})}" class="btn btn-danger btn-sm">Excluir</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item" th:classappend="${!filmes.hasPrevious()}? 'disabled'">
+                        <a class="page-link" th:href="@{/filme(page=${filmes.getNumber()-1},size=${filmes.getSize()})}">Anterior</a>
+                    </li>
+                    <li class="page-item" th:classappend="${i == filmes.getNumber()}? 'active'"
+                        th:each="i : ${#numbers.sequence( 0, filmes.getTotalPages())}">
+                        <a class="page-link"
+                           th:href="@{/filme(page=${i},size=${filmes.getSize()})}"
+                           th:text="${i+1}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${!filmes.hasNext()}? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/filme(page=${filmes.getNumber()+1},size=${filmes.getSize()})}">Proxima</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <a th:href="@{/filme/novo}" class="btn btn-primary">Novo</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
